@@ -27,7 +27,10 @@ export type MenuItemDto = {
 
   name: string;
   description?: string;
-  category?: string;
+  category?: {
+    id: string;
+    name: string;
+  };
 
   price: string; // Serialized as string, example: "12.99"
   currency: string;
@@ -162,7 +165,7 @@ export type AddMenuItemRequestDto = {
 
   name: string;
   description?: string;
-  category?: string;
+  category?: MenuItemDto["category"];
 
   price: string; // example: "12.99"
   currency: string;
@@ -209,7 +212,7 @@ Used by the Restaurant App to update an existing menu item.
 export type EditMenuItemRequestDto = {
   name?: string;
   description?: string;
-  category?: string;
+  category?: MenuItemDto["category"];
 
   price?: string; // example: "12.99"
   currency?: string;
@@ -336,7 +339,10 @@ export type MenuValidationErrorDto = {
   "name": "Spicy Chicken Ramen",
   "price": "12.99",
   "currency": "ILS",
-  "category": "Noodles",
+  "category": {
+    "id": "9b5f7bd2-e7cb-4f1e-b9cf-0461d9c01000",
+    "name": "Noodles"
+  },
   "isAvailable": true
 }
 ```
