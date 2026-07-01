@@ -35,17 +35,13 @@ export type ValidatedOrderMenuItemDto = {
   totalPrice: MenuItemDto["price"];
 };
 
-const menuValidationErrorCodes = [
-  "ITEM_NOT_FOUND",
-  "ITEM_UNAVAILABLE",
-  "ITEM_RESTAURANT_MISMATCH",
-  "PRICE_CHANGED",
-  "INVALID_QUANTITY",
-  "CURRENCY_MISMATCH",
-] as const;
-
 export type MenuValidationErrorCode =
-  (typeof menuValidationErrorCodes)[number];
+  | "ITEM_NOT_FOUND"
+  | "ITEM_UNAVAILABLE"
+  | "ITEM_RESTAURANT_MISMATCH"
+  | "PRICE_CHANGED"
+  | "INVALID_QUANTITY"
+  | "CURRENCY_MISMATCH";
 
 export type MenuValidationErrorDto = {
   menuItemId?: MenuItemDto["id"];

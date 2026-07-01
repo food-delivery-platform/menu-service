@@ -23,11 +23,13 @@ export type GetMenuItemsByIdsResponseDto = {
   totalPrice: MenuItemDto["price"];
 };
 
-export const addMenuItemRequestDtoSchema = menuItemDtoSchema.omit({
-  id: true,
-}).extend({
-  isAvailable: menuItemDtoSchema.shape.isAvailable.optional(),
-});
+export const addMenuItemRequestDtoSchema = menuItemDtoSchema
+  .omit({
+    id: true,
+  })
+  .extend({
+    isAvailable: menuItemDtoSchema.shape.isAvailable.optional(),
+  });
 
 export type AddMenuItemRequestDto = z.infer<typeof addMenuItemRequestDtoSchema>;
 
@@ -35,12 +37,16 @@ export type AddMenuItemResponseDto = {
   item: MenuItemDto;
 };
 
-export const editMenuItemRequestDtoSchema = menuItemDtoSchema.omit({
-  id: true,
-  restaurantId: true,
-}).partial();
+export const editMenuItemRequestDtoSchema = menuItemDtoSchema
+  .omit({
+    id: true,
+    restaurantId: true,
+  })
+  .partial();
 
-export type EditMenuItemRequestDto = z.infer<typeof editMenuItemRequestDtoSchema>;
+export type EditMenuItemRequestDto = z.infer<
+  typeof editMenuItemRequestDtoSchema
+>;
 
 export type EditMenuItemResponseDto = {
   item: MenuItemDto;
