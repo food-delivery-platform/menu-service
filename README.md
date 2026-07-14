@@ -20,6 +20,20 @@ The application role needs `secretsmanager:GetSecretValue` for that secret and,
 when a customer-managed KMS key is used, `kms:Decrypt` for the key. The secret is
 retrieved once and cached for the lifetime of the process.
 
+## JWT claims
+
+The HTTP API Gateway is responsible for validating JWT signatures, issuers,
+audiences, and expiration. The service uses `jwt-decode` to decode the payload
+of an optional `Authorization: Bearer <token>` header and exposes its claims as
+`req.jwtPayload`. It does not independently authenticate the token. Requests
+with a malformed authorization header or JWT payload receive `400 Bad Request`.
+
+Protected restaurant-management routes require membership in the
+`restaurant-owner` Cognito group. Restaurant owners can only modify restaurants
+whose `ownerId` matches their JWT `sub`. The group name can be changed with
+`RESTAURANT_OWNER_GROUP`. Menu-item reads, including
+`POST /menu-items/by-ids` and `POST /menu-items/validate`, remain public.
+
 ## REST API Summary
 
 - `GET /restaurants` - Get all restaurants
@@ -188,7 +202,6 @@ Used to add a new restaurant.
 
 ```typescript
 export type AddRestaurantRequestDto = {
-  ownerId: string;
   addressId: string;
 
   name: string;
@@ -199,6 +212,8 @@ export type AddRestaurantRequestDto = {
   imageUrl?: string;
 };
 ```
+
+The service sets `ownerId` from the authenticated Cognito JWT `sub` claim.
 
 ### Response
 
